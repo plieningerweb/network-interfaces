@@ -69,7 +69,10 @@ class InterfacesFile(object):
             self.sub_files.append(InterfacesFile(subfile[0], source=subfile[1]))
 
         for startup in [s for s in stanzas if isinstance(s, StartupStanza)]:
-            self.get_iface(startup.iface_name).startup = startup
+            try:
+                self.get_iface(startup.iface_name).startup = startup
+            except KeyError:
+                continue
 
     def find_iface(self, name):
         return [iface for iface in self.interfaces if iface.name.index(name)]
